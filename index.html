@@ -156,18 +156,25 @@ body {
 </div>
 
 <div class="popup" id="messagePopup" style="display:none;">
-  <h2>Will u do as I say or not?</h2>
+  <h2>Will u do as I say or not?
+  Okay come later!</h2>
 </div>
 
 <script>
 function closePopup() {
-  document.getElementById("popup").classList.add("hide");
-  document.getElementById("overlay").classList.add("hide");
+  const popup = document.getElementById("popup");
+  const overlay = document.getElementById("overlay");
+  const messagePopup = document.getElementById("messagePopup");
 
-  setTimeout(function() {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("messagePopup").style.display = "block";
-  }, 450);
+  popup.classList.add("hide");
+  overlay.classList.add("hide");
+
+  setTimeout(() => {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+    messagePopup.style.display = "block";
+    messagePopup.style.animation = "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+  }, 500);
 }
 </script>
 
