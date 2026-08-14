@@ -32,14 +32,12 @@ body {
   overflow: hidden;
 }
 
-/* Background */
 .background {
   position: fixed;
   inset: 0;
   background: radial-gradient(circle at center, #292929, #111);
 }
 
-/* Dark overlay */
 .overlay {
   position: fixed;
   inset: 0;
@@ -47,7 +45,6 @@ body {
   backdrop-filter: blur(6px);
 }
 
-/* Popup */
 .popup {
   position: relative;
   z-index: 2;
@@ -91,7 +88,6 @@ body {
   transform: scale(0.92);
 }
 
-/* Yes / No buttons */
 .choices {
   display: flex;
   gap: 14px;
@@ -113,7 +109,6 @@ body {
   color: white;
 }
 
-/* Bounce animation */
 @keyframes bounceIn {
   0% {
     opacity: 0;
@@ -135,7 +130,6 @@ body {
   }
 }
 
-/* Closing animation */
 .popup.hide {
   animation: disappear 0.45s ease forwards;
 }
@@ -166,7 +160,7 @@ body {
 <div class="overlay" id="overlay"></div>
 
 
-<!-- Welcome Popup -->
+<!-- WELCOME POPUP -->
 <div class="popup" id="popup">
 
   <h2>✨ Welcome ✨</h2>
@@ -182,8 +176,8 @@ body {
 </div>
 
 
-<!-- Question Popup -->
-<div class="popup" id="messagePopup" style="display:none;">
+<!-- QUESTION POPUP -->
+<div class="popup" id="questionPopup" style="display:none;">
 
   <h2 id="questionText">
     Will u do as I say or not?
@@ -191,11 +185,11 @@ body {
 
   <div class="choices">
 
-    <button onclick="handleAnswer('yes')">
+    <button onclick="answerYes()">
       Yes
     </button>
 
-    <button onclick="handleAnswer('no')">
+    <button onclick="answerNo()">
       No
     </button>
 
@@ -204,139 +198,153 @@ body {
 </div>
 
 
-<!-- Final / Next Question Popup -->
-<div class="popup" id="choicePopup" style="display:none;">
+<!-- RESULT POPUP -->
+<div class="popup" id="resultPopup" style="display:none;">
 
-  <h2 id="choiceTitle"></h2>
-
-  <p id="choiceText"></p>
+  <h2 id="resultText"></h2>
 
 </div>
 
 
 <script>
 
+/* =========================
+   CURRENT QUESTION
+   1 = Will u do...
+   2 = Do you really love me?
+========================= */
+
+let currentQuestion = 1;
+
+
+/* =========================
+   WELCOME → QUESTION
+========================= */
+
 function closePopup() {
 
-  const popup =
-    document.getElementById("popup");
-
-  const overlay =
-    document.getElementById("overlay");
-
-  const messagePopup =
-    document.getElementById("messagePopup");
+  const popup = document.getElementById("popup");
+  const overlay = document.getElementById("overlay");
+  const questionPopup = document.getElementById("questionPopup");
 
   popup.classList.add("hide");
   overlay.classList.add("hide");
 
-  setTimeout(() => {
+  setTimeout(function() {
 
     popup.style.display = "none";
     overlay.style.display = "none";
 
-    messagePopup.style.display = "block";
+    questionPopup.style.display = "block";
 
-    messagePopup.style.animation =
+    questionPopup.style.animation =
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
 
   }, 500);
 }
 
 
-function handleAnswer(answer) {
+/* =========================
+   YES BUTTON
+========================= */
 
-  const questionText =
-    document.getElementById("questionText");
+function answerYes() {
 
-  const messagePopup =
-    document.getElementById("messagePopup");
+  const questionPopup =
+    document.getElementById("questionPopup");
 
-  const choicePopup =
-    document.getElementById("choicePopup");
+  const resultPopup =
+    document.getElementById("resultPopup");
 
-  const choiceTitle =
-    document.getElementById("choiceTitle");
-
-  const choiceText =
-    document.getElementById("choiceText");
+  const resultText =
+    document.getElementById("resultText");
 
 
-  /*
-   * FIRST QUESTION
-   * Will u do as I say or not?
-   */
+  /* FIRST QUESTION */
+  if (currentQuestion === 1) {
 
-  if (
-    questionText.textContent.trim() ===
-    "Will u do as I say?"
-  ) {
+    questionPopup.style.display = "none";
 
-    /* YES */
-    if (answer === "yes") {
+    resultPopup.style.display = "block";
 
-      messagePopup.style.display = "none";
+    resultPopup.style.animation =
+      "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
 
-      choicePopup.style.display = "block";
-
-      choicePopup.style.animation =
-        "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
-
-      choiceTitle.textContent =
-        "20th May ke baad kyu nhi kiya?";
-
-      choiceText.textContent = "";
-
-    }
-
-    /* NO */
-    else {
-
-      questionText.textContent =
-        "Do you really love me?";
-
-    }
+    resultText.textContent =
+      "20th May ke baad kyu nhi kiya?";
 
   }
 
 
-  /*
-   * SECOND QUESTION
-   * Do you really love me?
-   */
+  /* SECOND QUESTION */
+  else if (currentQuestion === 2) {
 
-  else if (
-    questionText.textContent.trim() ===
-    "Do you really love me?"
-  ) {
+    questionPopup.style.display = "none";
 
-    messagePopup.style.display = "none";
+    resultPopup.style.display = "block";
 
-    choicePopup.style.display = "block";
-
-    choicePopup.style.animation =
+    resultPopup.style.animation =
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
 
+    resultText.textContent =
+      "Do as I say then always.";
 
-    /* YES */
-    if (answer === "yes") {
+  }
 
-      choiceTitle.textContent =
-        "Do as I say then always.";
+}
 
-      choiceText.textContent = "";
 
-    }
+/* =========================
+   NO BUTTON
+========================= */
 
-    /* NO */
-    else {
+function answerNo() {
 
-      choiceTitle.textContent =
-        "That's not love ❤️";
+  const questionPopup =
+    document.getElementById("questionPopup");
 
-      choiceText.textContent = "";
+  const questionText =
+    document.getElementById("questionText");
 
-    }
+  const resultPopup =
+    document.getElementById("resultPopup");
+
+  const resultText =
+    document.getElementById("resultText");
+
+
+  /* FIRST QUESTION → SECOND QUESTION */
+
+  if (currentQuestion === 1) {
+
+    currentQuestion = 2;
+
+    questionText.textContent =
+      "Do you really love me?";
+
+    questionPopup.style.animation = "none";
+
+    void questionPopup.offsetWidth;
+
+    questionPopup.style.animation =
+      "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+  }
+
+
+  /* SECOND QUESTION → FINAL MESSAGE */
+
+  else if (currentQuestion === 2) {
+
+    questionPopup.style.display = "none";
+
+    resultPopup.style.display = "block";
+
+    resultPopup.style.animation =
+      "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+    resultText.textContent =
+      "That's not love ❤️";
 
   }
 
