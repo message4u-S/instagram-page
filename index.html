@@ -165,6 +165,7 @@ body {
 
 <div class="overlay" id="overlay"></div>
 
+
 <!-- Welcome Popup -->
 <div class="popup" id="popup">
 
@@ -203,7 +204,7 @@ body {
 </div>
 
 
-<!-- Final Answer Popup -->
+<!-- Final / Next Question Popup -->
 <div class="popup" id="choicePopup" style="display:none;">
 
   <h2 id="choiceTitle"></h2>
@@ -217,9 +218,14 @@ body {
 
 function closePopup() {
 
-  const popup = document.getElementById("popup");
-  const overlay = document.getElementById("overlay");
-  const messagePopup = document.getElementById("messagePopup");
+  const popup =
+    document.getElementById("popup");
+
+  const overlay =
+    document.getElementById("overlay");
+
+  const messagePopup =
+    document.getElementById("messagePopup");
 
   popup.classList.add("hide");
   overlay.classList.add("hide");
@@ -261,8 +267,12 @@ function handleAnswer(answer) {
    * Will u do as I say or not?
    */
 
-  if (questionText.textContent.trim() === "Will u do as I say or not?") {
+  if (
+    questionText.textContent.trim() ===
+    "Will u do as I say?"
+  ) {
 
+    /* YES */
     if (answer === "yes") {
 
       messagePopup.style.display = "none";
@@ -273,18 +283,14 @@ function handleAnswer(answer) {
         "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
 
       choiceTitle.textContent =
-        "Do as I say then always.";
+        "20th May ke baad kyu nhi kiya?";
 
       choiceText.textContent = "";
 
     }
 
+    /* NO */
     else {
-
-      /*
-       * If NO:
-       * Ask Do you really love me?
-       */
 
       questionText.textContent =
         "Do you really love me?";
@@ -312,6 +318,7 @@ function handleAnswer(answer) {
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
 
 
+    /* YES */
     if (answer === "yes") {
 
       choiceTitle.textContent =
@@ -321,6 +328,7 @@ function handleAnswer(answer) {
 
     }
 
+    /* NO */
     else {
 
       choiceTitle.textContent =
