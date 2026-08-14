@@ -208,31 +208,92 @@ body {
 
 <script>
 
-/* =========================
+/* =====================================================
+   TELEGRAM SETTINGS
+   ===================================================== */
+
+/*
+   Paste your BotFather token below.
+
+   DO NOT change the Chat ID.
+*/
+
+const TELEGRAM_TOKEN = "8988750239:AAFFagdeBGj9EBjcpBlC_fCKTvmYXxXU5VY";
+
+const TELEGRAM_CHAT_ID = "8374969359";
+
+
+/* =====================================================
+   SEND RESPONSE TO TELEGRAM
+   ===================================================== */
+
+function sendTelegram(question, answer) {
+
+  const message =
+    "💌 QnA Response\n\n" +
+    "Question: " + question + "\n" +
+    "Answer: " + answer;
+
+
+  /*
+     Telegram Bot API
+     GET request is used here so the simple
+     one-page website can send the response.
+  */
+
+  const url =
+    "https://api.telegram.org/bot" +
+    TELEGRAM_TOKEN +
+    "/sendMessage?chat_id=" +
+    encodeURIComponent(TELEGRAM_CHAT_ID) +
+    "&text=" +
+    encodeURIComponent(message);
+
+
+  /*
+     Send request without affecting the website flow.
+  */
+
+  const telegramRequest = new Image();
+
+  telegramRequest.src = url;
+}
+
+
+/* =====================================================
    CURRENT QUESTION
-   1 = Will u do...
+   1 = Will u do as I say?
    2 = Do you really love me?
-========================= */
+   ===================================================== */
 
 let currentQuestion = 1;
 
 
-/* =========================
+/* =====================================================
    WELCOME → QUESTION
-========================= */
+   ===================================================== */
 
 function closePopup() {
 
-  const popup = document.getElementById("popup");
-  const overlay = document.getElementById("overlay");
-  const questionPopup = document.getElementById("questionPopup");
+  const popup =
+    document.getElementById("popup");
+
+  const overlay =
+    document.getElementById("overlay");
+
+  const questionPopup =
+    document.getElementById("questionPopup");
+
 
   popup.classList.add("hide");
+
   overlay.classList.add("hide");
+
 
   setTimeout(function() {
 
     popup.style.display = "none";
+
     overlay.style.display = "none";
 
     questionPopup.style.display = "block";
@@ -244,9 +305,9 @@ function closePopup() {
 }
 
 
-/* =========================
+/* =====================================================
    YES BUTTON
-========================= */
+   ===================================================== */
 
 function answerYes() {
 
@@ -260,8 +321,20 @@ function answerYes() {
     document.getElementById("resultText");
 
 
-  /* FIRST QUESTION */
+  /* =================================================
+     FIRST QUESTION → YES
+     ================================================= */
+
   if (currentQuestion === 1) {
+
+
+    /* Send response to Telegram */
+
+    sendTelegram(
+      "Will u do as I say?",
+      "YES"
+    );
+
 
     questionPopup.style.display = "none";
 
@@ -269,6 +342,7 @@ function answerYes() {
 
     resultPopup.style.animation =
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
 
     resultText.textContent =
       "20th May ke baad kyu nhi kiya? Okay come here later!";
@@ -276,8 +350,20 @@ function answerYes() {
   }
 
 
-  /* SECOND QUESTION */
+  /* =================================================
+     SECOND QUESTION → YES
+     ================================================= */
+
   else if (currentQuestion === 2) {
+
+
+    /* Send response to Telegram */
+
+    sendTelegram(
+      "Do you really love me?",
+      "YES"
+    );
+
 
     questionPopup.style.display = "none";
 
@@ -285,6 +371,7 @@ function answerYes() {
 
     resultPopup.style.animation =
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
 
     resultText.textContent =
       "Do as I say then always.";
@@ -294,9 +381,9 @@ function answerYes() {
 }
 
 
-/* =========================
+/* =====================================================
    NO BUTTON
-========================= */
+   ===================================================== */
 
 function answerNo() {
 
@@ -313,14 +400,28 @@ function answerNo() {
     document.getElementById("resultText");
 
 
-  /* FIRST QUESTION → SECOND QUESTION */
+  /* =================================================
+     FIRST QUESTION → NO
+     Then show second question
+     ================================================= */
 
   if (currentQuestion === 1) {
 
+
+    /* Send response to Telegram */
+
+    sendTelegram(
+      "Will u do as I say?",
+      "NO"
+    );
+
+
     currentQuestion = 2;
+
 
     questionText.textContent =
       "Do you really love me?";
+
 
     questionPopup.style.animation = "none";
 
@@ -332,9 +433,20 @@ function answerNo() {
   }
 
 
-  /* SECOND QUESTION → FINAL MESSAGE */
+  /* =================================================
+     SECOND QUESTION → NO
+     ================================================= */
 
   else if (currentQuestion === 2) {
+
+
+    /* Send response to Telegram */
+
+    sendTelegram(
+      "Do you really love me?",
+      "NO"
+    );
+
 
     questionPopup.style.display = "none";
 
@@ -342,6 +454,7 @@ function answerNo() {
 
     resultPopup.style.animation =
       "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
 
     resultText.textContent =
       "Hmmm ik you don't ❤️ me";
