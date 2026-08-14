@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Shweta???</title>
+<title>QnA</title>
 
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH72JF54FW"></script>
@@ -91,6 +91,27 @@ body {
   transform: scale(0.92);
 }
 
+.choices {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.choices button {
+  min-width: 90px;
+}
+
+.choices button:first-child {
+  background: #22c55e;
+  color: white;
+}
+
+.choices button:last-child {
+  background: #ef4444;
+  color: white;
+}
+
 /* Bounce animation */
 @keyframes bounceIn {
   0% {
@@ -156,8 +177,16 @@ body {
 </div>
 
 <div class="popup" id="messagePopup" style="display:none;">
-  <h2>Will u do as I say or not?
-  Okay come later!</h2>
+  <h2>Will u do as I say or not?</h2>
+  <div class="choices">
+    <button onclick="showChoice('yes')">Yes</button>
+    <button onclick="showChoice('no')">No</button>
+  </div>
+</div>
+
+<div class="popup" id="choicePopup" style="display:none;">
+  <h2 id="choiceTitle"></h2>
+  <p id="choiceText"></p>
 </div>
 
 <script>
@@ -175,6 +204,25 @@ function closePopup() {
     messagePopup.style.display = "block";
     messagePopup.style.animation = "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
   }, 500);
+}
+
+function showChoice(choice) {
+  const messagePopup = document.getElementById("messagePopup");
+  const choicePopup = document.getElementById("choicePopup");
+  const choiceTitle = document.getElementById("choiceTitle");
+  const choiceText = document.getElementById("choiceText");
+
+  messagePopup.style.display = "none";
+  choicePopup.style.display = "block";
+  choicePopup.style.animation = "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+  if (choice === "no") {
+    choiceTitle.textContent = "Do you really love me?";
+    choiceText.textContent = "That's not love ❤️";
+  } else {
+    choiceTitle.textContent = "Do as I say then.";
+    choiceText.textContent = "To 20th May or uske baad kyu nhi kiya?";
+  }
 }
 </script>
 
