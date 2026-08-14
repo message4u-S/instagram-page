@@ -91,6 +91,7 @@ body {
   transform: scale(0.92);
 }
 
+/* Yes / No buttons */
 .choices {
   display: flex;
   gap: 14px;
@@ -129,6 +130,7 @@ body {
   }
 
   100% {
+    opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
@@ -160,8 +162,10 @@ body {
 <body>
 
 <div class="background"></div>
+
 <div class="overlay" id="overlay"></div>
 
+<!-- Welcome Popup -->
 <div class="popup" id="popup">
 
   <h2>✨ Welcome ✨</h2>
@@ -176,21 +180,43 @@ body {
 
 </div>
 
+
+<!-- Question Popup -->
 <div class="popup" id="messagePopup" style="display:none;">
-  <h2>Will u do as I say or not?</h2>
+
+  <h2 id="questionText">
+    Will u do as I say or not?
+  </h2>
+
   <div class="choices">
-    <button onclick="showChoice('yes')">Yes</button>
-    <button onclick="showChoice('no')">No</button>
+
+    <button onclick="handleAnswer('yes')">
+      Yes
+    </button>
+
+    <button onclick="handleAnswer('no')">
+      No
+    </button>
+
   </div>
+
 </div>
 
+
+<!-- Final Answer Popup -->
 <div class="popup" id="choicePopup" style="display:none;">
+
   <h2 id="choiceTitle"></h2>
+
   <p id="choiceText"></p>
+
 </div>
+
 
 <script>
+
 function closePopup() {
+
   const popup = document.getElementById("popup");
   const overlay = document.getElementById("overlay");
   const messagePopup = document.getElementById("messagePopup");
@@ -199,31 +225,115 @@ function closePopup() {
   overlay.classList.add("hide");
 
   setTimeout(() => {
+
     popup.style.display = "none";
     overlay.style.display = "none";
+
     messagePopup.style.display = "block";
-    messagePopup.style.animation = "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+    messagePopup.style.animation =
+      "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
   }, 500);
 }
 
-function showChoice(choice) {
-  const messagePopup = document.getElementById("messagePopup");
-  const choicePopup = document.getElementById("choicePopup");
-  const choiceTitle = document.getElementById("choiceTitle");
-  const choiceText = document.getElementById("choiceText");
 
-  messagePopup.style.display = "none";
-  choicePopup.style.display = "block";
-  choicePopup.style.animation = "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+function handleAnswer(answer) {
 
-  if (choice === "no") {
-    choiceTitle.textContent = "Do you really love me?";
-    choiceText.textContent = "That's not love ❤️";
-  } else {
-    choiceTitle.textContent = "Do as I say then.";
-    choiceText.textContent = "To 20th May or uske baad kyu nhi kiya?";
+  const questionText =
+    document.getElementById("questionText");
+
+  const messagePopup =
+    document.getElementById("messagePopup");
+
+  const choicePopup =
+    document.getElementById("choicePopup");
+
+  const choiceTitle =
+    document.getElementById("choiceTitle");
+
+  const choiceText =
+    document.getElementById("choiceText");
+
+
+  /*
+   * FIRST QUESTION
+   * Will u do as I say or not?
+   */
+
+  if (questionText.textContent.trim() === "Will u do as I say or not?") {
+
+    if (answer === "yes") {
+
+      messagePopup.style.display = "none";
+
+      choicePopup.style.display = "block";
+
+      choicePopup.style.animation =
+        "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+      choiceTitle.textContent =
+        "Do as I say then always.";
+
+      choiceText.textContent = "";
+
+    }
+
+    else {
+
+      /*
+       * If NO:
+       * Ask Do you really love me?
+       */
+
+      questionText.textContent =
+        "Do you really love me?";
+
+    }
+
   }
+
+
+  /*
+   * SECOND QUESTION
+   * Do you really love me?
+   */
+
+  else if (
+    questionText.textContent.trim() ===
+    "Do you really love me?"
+  ) {
+
+    messagePopup.style.display = "none";
+
+    choicePopup.style.display = "block";
+
+    choicePopup.style.animation =
+      "bounceIn 0.8s cubic-bezier(.68,-0.55,.27,1.55)";
+
+
+    if (answer === "yes") {
+
+      choiceTitle.textContent =
+        "Do as I say then always.";
+
+      choiceText.textContent = "";
+
+    }
+
+    else {
+
+      choiceTitle.textContent =
+        "That's not love ❤️";
+
+      choiceText.textContent = "";
+
+    }
+
+  }
+
 }
+
 </script>
 
 </body>
