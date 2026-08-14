@@ -155,10 +155,19 @@ body {
 
 </div>
 
+<div class="popup" id="messagePopup" style="display:none;">
+  <h2>Will u do as I say or not?</h2>
+</div>
+
 <script>
 function closePopup() {
   document.getElementById("popup").classList.add("hide");
   document.getElementById("overlay").classList.add("hide");
+
+  setTimeout(function() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("messagePopup").style.display = "block";
+  }, 450);
 }
 </script>
 
